@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://avatars1.githubusercontent.com/u/22600631?s=200&v=4" alt="Corda" width="300">
-  <img width="600" height="341" src="https://www.securitymattersltd.com/wp-content/uploads/2019/02/img2-1024x341.png" class="attachment-large size-large" alt=""srcset="https://www.securitymattersltd.com/wp-content/uploads/2019/02/img2-1024x341.png 1024w, https://www.securitymattersltd.com/wp-content/uploads/2019/02/img2-300x100.png 300w, https://www.securitymattersltd.com/wp-content/uploads/2019/02/img2-768x256.png 768w" sizes="(max-width: 1024px) 100vw, 1024px">
+  <img src="https://avatars1.githubusercontent.com/u/22600631?s=200&v=4" alt="Corda" width="100">
+<img width="300" height="100" src="https://www.securitymattersltd.com/wp-content/uploads/2019/02/img2-1024x341.png" class="attachment-large size-large" alt=""srcset="https://www.securitymattersltd.com/wp-content/uploads/2019/02/img2-1024x341.png 1024w, https://www.securitymattersltd.com/wp-content/uploads/2019/02/img2-300x100.png 300w, https://www.securitymattersltd.com/wp-content/uploads/2019/02/img2-768x256.png 768w" sizes="(max-width: 1024px) 100vw, 1024px">
 </p>
 
 # SMX CorDapp - Demo
@@ -13,44 +13,33 @@ See https://docs.corda.net/getting-set-up.html.
 
 ## Running the nodes
 
-Follow thw instructions here: https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp and execute the following
+Follow thw instructions here: https://docs.corda.net/tutorial-cordapp.html#running-the-example-cordapp to do the following two steps:
 
 1. Build the CorDapp
 2. Run the CorDappp
 
 Then start the SpringBoot server as outlined below.
 
-## Interacting with the nodes
-
-### Client
-
-`clients/src/main/kotlin/com/template/Client.kt` defines a simple command-line client that connects to a node via RPC
-and prints a list of the other nodes on the network.
-
-#### Running the client
-
-##### Via the command line
-
-Run the `runTemplateClient` Gradle task. By default, it connects to the node with RPC address `localhost:10006` with
-the username `user1` and the password `test`.
-
-##### Via IntelliJ
-
-Run the `Run Template Client` run configuration. By default, it connects to the node with RPC address `localhost:10006`
-with the username `user1` and the password `test`.
-
 ### Webserver
 
 `clients/src/main/kotlin/com/template/webserver/` defines a simple Spring webserver that connects to a node via RPC and
 allows you to interact with the node over HTTP.
 
+We defined two endpoints:
+
+	GET /ledgerupdates -> returns a JSON with all the states stored on ledger
+	POST /ledgerupdates -> Takes a JSON payload as a parameter and returns the JSON with state stored on ledger
+
 The API endpoints are defined here:
 
      clients/src/main/kotlin/com/template/webserver/Controller.kt
 
+
 And a static webpage is defined here:
 
      clients/src/main/resources/static/
+
+
 
 #### Running the webserver
 
@@ -70,16 +59,8 @@ The static webpage is served on:
 
     http://localhost:10050
 
-While the sole template endpoint is served on:
 
-    http://localhost:10050/templateendpoint
 
-### API
-
-We defined two endpoints:
-
-1. GET /ledgerupdates -> returns a JSON with all the states stored on ledger
-1. POST /ledgerupdates -> Takes a JSON payload as a parameter and returns the JSON with state stored on ledger
 
 ### Shell
 
@@ -97,6 +78,9 @@ You can quiry the sates on the node through the shell with the command:
 
     run vaultQuery contractStateType: com.template.states.SMXState
 
+You can add a state with this command:
+
+	flow start Initiator jsonData: world
 
 You can use this shell to interact with your node. For example, enter `run networkMapSnapshot` to see a list of
 the other nodes on the network:
