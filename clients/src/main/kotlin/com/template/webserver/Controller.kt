@@ -7,6 +7,7 @@ import net.corda.core.node.services.vault.QueryCriteria
 import net.corda.core.utilities.getOrThrow
 import nonapi.io.github.classgraph.json.JSONSerializer
 import org.slf4j.LoggerFactory
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 /**
@@ -22,7 +23,7 @@ class Controller(rpc: NodeRPCConnection) {
 
     private val proxy = rpc.proxy
 
-    @PostMapping(value = "/ledgerupdates", produces = arrayOf("text/plain"))
+    @PostMapping(value = "/ledgerupdates", produces = [MediaType.APPLICATION_JSON_VALUE])
     private fun postALedgerUpdate(@RequestBody jsonData: String): String {
         val tx = proxy.startFlow(::Initiator, jsonData)
         val state = tx.returnValue.toCompletableFuture().getOrThrow()
@@ -32,7 +33,9 @@ class Controller(rpc: NodeRPCConnection) {
     @GetMapping(value = "/ledgerupdates", produces = arrayOf("text/plain"))
     private fun getAllSMXStates(): String {
         val listOfSMXStates = proxy.vaultQuery(SMXState::class.java)
-        val smxStates = listOfSMXStates.states.map { it.state.data }
-        return JSONSerializer.serializeObject(smxStates)
+        val smxStates = listOfSMXStates.states.map {  it.state.data }
+        val ret =  JSONSerializer.serializeObject(smxStates.toString())
+        return ret
+
     }
 }
